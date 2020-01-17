@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        openImagesActivity();
 
       }
     });
@@ -152,5 +152,11 @@ public class MainActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
     }
+  }
+    private void openImagesActivity() {
+      Intent intent = new Intent(this, ImagesActivity.class);
+      startActivity(intent);
+//left offf on video 5
+      //first need to figure out why intent is mad
   }
 }
