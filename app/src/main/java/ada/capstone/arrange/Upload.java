@@ -1,8 +1,13 @@
 package ada.capstone.arrange;
 
+import com.google.firebase.database.Exclude;
+
+
 public class Upload {
   private String mName;
   private String mImageUrl;
+  private String mKey; //
+
 
   public Upload() {
 
@@ -17,7 +22,6 @@ public class Upload {
     mImageUrl = imageUrl;
 
   }
-
   public String getName() {
     return mName;
   }
@@ -25,7 +29,7 @@ public class Upload {
   public void setName(String name) {
     mName = name;
   }
-
+ // //
   public String getImageUrl() {
     return mImageUrl;
   }
@@ -34,4 +38,13 @@ public class Upload {
     mImageUrl = imageUrl;
   }
 
+  @Exclude
+  public String getKey() {
+    return mKey;
+  }
+
+  @Exclude
+  public void setKey(String key) {
+    mKey = key;
+  }
 }

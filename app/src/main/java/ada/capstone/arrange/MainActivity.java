@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -14,9 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +25,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     mImageView = findViewById(R.id.image_view);
     mProgressBar = findViewById(R.id.progress_bar);
 
+    //thiiiiis?
     mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
     mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
@@ -83,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         openImagesActivity();
-
       }
     });
   }
@@ -131,9 +132,16 @@ public class MainActivity extends AppCompatActivity {
               }, 500);
 
               Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-              Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-              String uploadId = mDatabaseRef.push().getKey();
-              mDatabaseRef.child(uploadId).setValue(upload);
+              //.getReference().getDownloadUrl().
+              taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                  String ImageURL = task.getResult().toString();
+                  Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), ImageURL);
+                  String uploadId = mDatabaseRef.push().getKey();
+                  mDatabaseRef.child(uploadId).setValue(upload);
+                }
+              });
             }
           })
           .addOnFailureListener(new OnFailureListener() {
@@ -156,7 +164,5 @@ public class MainActivity extends AppCompatActivity {
     private void openImagesActivity() {
       Intent intent = new Intent(this, ImagesActivity.class);
       startActivity(intent);
-//left offf on video 5
-      //first need to figure out why intent is mad
   }
 }
