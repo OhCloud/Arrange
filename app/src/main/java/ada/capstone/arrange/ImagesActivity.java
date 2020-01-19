@@ -16,17 +16,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import android.widget.LinearLayout;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.firebase.database.ChildEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImagesActivity extends AppCompatActivity implements ImageAdapter.OnItemClickListener { //
-  private RecyclerView mRecyclerView; //
-  private ImageAdapter mAdapter; //
+  private RecyclerView mRecyclerViewTop; //
+  private RecyclerView mRecyclerViewBottom; //
+
+  private ImageAdapter mAdapterTop; //
+  private ImageAdapter mAdapterBottom; //
+
 
   private ProgressBar mProgressCircle;
 
@@ -40,19 +40,29 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_images);
 
-    mRecyclerView = findViewById(R.id.recycler_view); //
-    mRecyclerView.setHasFixedSize(true); //
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+    mRecyclerViewTop = findViewById(R.id.recycler_view_top); //
+    mRecyclerViewTop.setHasFixedSize(true); //
+    mRecyclerViewTop.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+    mRecyclerViewBottom = findViewById(R.id.recycler_view_bottom); //
+    mRecyclerViewBottom.setHasFixedSize(true); //
+    mRecyclerViewBottom.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
 
     mProgressCircle = findViewById(R.id.progress_circle);
 
     mUploads = new ArrayList<>();
 
-    mAdapter = new ImageAdapter(ImagesActivity.this, mUploads); //
+    mAdapterTop = new ImageAdapter(ImagesActivity.this, mUploads); //
+    mAdapterBottom = new ImageAdapter(ImagesActivity.this, mUploads); //
 
-    mRecyclerView.setAdapter(mAdapter); //
 
-    mAdapter.setOnItemClickListener(ImagesActivity.this); //
+    mRecyclerViewTop.setAdapter(mAdapterTop); //
+    mRecyclerViewBottom.setAdapter(mAdapterBottom); //
+
+    mAdapterTop.setOnItemClickListener(ImagesActivity.this); //
+    mAdapterBottom.setOnItemClickListener(ImagesActivity.this); //
+
 
     mStorage = FirebaseStorage.getInstance(); //
     mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads"); //thiiiiis?
@@ -69,11 +79,14 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
           mUploads.add(upload);
         }
 
-        mAdapter.notifyDataSetChanged(); //
+        mAdapterTop.notifyDataSetChanged(); //
+        mAdapterBottom.notifyDataSetChanged(); //
+
 
         mProgressCircle.setVisibility(View.INVISIBLE); //
 
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerViewTop.setAdapter(mAdapterTop);
+        mRecyclerViewBottom.setAdapter(mAdapterBottom);
         mProgressCircle.setVisibility(View.INVISIBLE);
       }
 
