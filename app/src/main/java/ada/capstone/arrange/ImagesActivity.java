@@ -146,13 +146,12 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
       Upload bottom = mUploads.get(position);
       mOutfit.setBottom(bottom);
     }
-    Toast.makeText(this, "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Item selected at position: " + position, Toast.LENGTH_SHORT).show();
 
     if (mOutfit.getTop() != null && mOutfit.getBottom() != null) {
       saveOutfit();
     }
   }
-
 
   @Override
   public void onDeleteClick(int position) {
