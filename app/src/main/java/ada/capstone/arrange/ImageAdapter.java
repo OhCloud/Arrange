@@ -20,10 +20,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
   private Context mContext;
   private List<Upload> mUploads;
   private OnItemClickListener mListener; //
+  private String mTopOrBottom;
 
-  public ImageAdapter(Context context, List<Upload> uploads) {
+  public ImageAdapter(Context context, List<Upload> uploads, String topOrBottom) {
     mContext = context;
     mUploads = uploads;
+    mTopOrBottom = topOrBottom;
 
   }
 
@@ -64,6 +66,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
       itemView.setOnCreateContextMenuListener(this);
     }
 
+    //
+
     @Override
     public void onClick(View v) {
       if (mListener != null) {
@@ -77,10 +81,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
       menu.setHeaderTitle("Select Action");
-      MenuItem doWhatever = menu.add(Menu.NONE, 1, 1, "Do whatever"); //thiiiiis
+      MenuItem select = menu.add(Menu.NONE, 1, 1, "Select"); //thiiiiis
       MenuItem delete = menu.add(Menu.NONE, 2, 2, "Delete");
 
-      doWhatever.setOnMenuItemClickListener(this);
+      select.setOnMenuItemClickListener(this);
       delete.setOnMenuItemClickListener(this);
     }
 
@@ -92,7 +96,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
           switch (item.getItemId()) {
             case 1:
-              mListener.onWhatEverClick(position);
+              mListener.onSelectClick(position, mTopOrBottom);
               return true;
             case 2:
               mListener.onDeleteClick(position);
@@ -107,7 +111,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
   public interface OnItemClickListener {
     void onItemClick(int position);
 
-    void onWhatEverClick(int position);
+    void onSelectClick(int position, String topOrBottom);
 
     void onDeleteClick(int position);
   }

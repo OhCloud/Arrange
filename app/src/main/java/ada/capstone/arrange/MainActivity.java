@@ -4,8 +4,10 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -115,14 +117,18 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void uploadFile() {
+    //this is method signature (name, param, return type)
     if (mImageUri != null) {
-      StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-          + "." + getFileExtension(mImageUri));
-
+      //if statement/ if imageuri is NOT null, this happens...
+      StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+      //how we get the fileRef
       mUploadTask = fileReference.putFile(mImageUri)
+          //this uploads the image
           .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            //the thing that tells is that it worked, adding callback to handle a successful upload
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+              //onsuccesss is callback - tasksnapshot returns info after upload, info about it
               Handler handler = new Handler();
               handler.postDelayed(new Runnable() {
                 @Override
@@ -132,14 +138,18 @@ public class MainActivity extends AppCompatActivity {
               }, 500);
 
               Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-              //.getReference().getDownloadUrl().
               taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                //getting image URL to put on the upload were about to create //making 'name'
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                   String ImageURL = task.getResult().toString();
+                  //getting uri from completed task and turning into a string
                   Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), ImageURL);
+                  //can add a name to the picture
                   String uploadId = mDatabaseRef.push().getKey();
+                  //the id that is given to the picture in firebase when the pic is uploaded
                   mDatabaseRef.child(uploadId).setValue(upload);
+                  //this is creates the upload with the imageurl in firebase
                 }
               });
             }
@@ -155,14 +165,17 @@ public class MainActivity extends AppCompatActivity {
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
               double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
               mProgressBar.setProgress((int) progress);
+              //progress bar update everytime is progresses
             }
           });
     } else {
       Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
-    }
+      //if no picture is selected but you try to upload
+    } //end of statement
   }
-    private void openImagesActivity() {
-      Intent intent = new Intent(this, ImagesActivity.class);
-      startActivity(intent);
+
+  private void openImagesActivity() {
+    Intent intent = new Intent(this, ImagesActivity.class);
+    startActivity(intent);
   }
 }

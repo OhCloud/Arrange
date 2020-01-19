@@ -32,8 +32,11 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
   private FirebaseStorage mStorage;
   private DatabaseReference mDatabaseRef;
+  private DatabaseReference mOutfitsDatabaseRef;
   private ValueEventListener mDBListener;
   private List<Upload> mUploads;
+
+  private Outfit mOutfit;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,8 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
     mUploads = new ArrayList<>();
 
-    mAdapterTop = new ImageAdapter(ImagesActivity.this, mUploads); //
-    mAdapterBottom = new ImageAdapter(ImagesActivity.this, mUploads); //
+    mAdapterTop = new ImageAdapter(ImagesActivity.this, mUploads, "top"); //
+    mAdapterBottom = new ImageAdapter(ImagesActivity.this, mUploads, "bottom"); //
 
 
     mRecyclerViewTop.setAdapter(mAdapterTop); //
@@ -66,6 +69,9 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
     mStorage = FirebaseStorage.getInstance(); //
     mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads"); //thiiiiis?
+    mOutfitsDatabaseRef = FirebaseDatabase.getInstance().getReference("outfits");
+
+    mOutfit = new Outfit();
 
     mDatabaseRef.addValueEventListener(new ValueEventListener() {
       @Override
@@ -100,16 +106,53 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     });
 
   }
-//    mDatabaseRef.addChildEventListener(new ChildEventListener() {
-@Override
-public void onItemClick(int position) {
-  Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
-}
+
+  private void saveOutfit(){
+    if (mOutfit.getTop() == null || mOutfit.getBottom() == null) {
+      Toast.makeText(this, "No Top or Bottom Selected", Toast.LENGTH_SHORT).show();
+      return; //else
+    }
+
+    String outfitId = mOutfitsDatabaseRef.push().getKey();
+    mOutfitsDatabaseRef.child(outfitId).setValue(mOutfit).addOnSuccessListener(new OnSuccessListener<Void>() {
+      @Override
+      public void onSuccess(Void aVoid) {
+        Toast.makeText(ImagesActivity.this, "OUTFIT SAVED!", Toast.LENGTH_SHORT).show();
+      }
+    });
+
+  }
 
   @Override
-  public void onWhatEverClick(int position) {
-    Toast.makeText(this, "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+  public void onItemClick(int position) {
+    Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
   }
+
+  @Override
+  public void onSelectClick(int position, String topOrBottom) {
+//    if (someCondition) {
+//      // then do this
+//    } else if (anotherCondition) {
+//      // then do this instead
+//    } else {
+//      // otherwise do this
+//    }
+
+    if (topOrBottom.equals("top")) {
+      //get upload @ position, set it to top on outfit
+      Upload top = mUploads.get(position);
+      mOutfit.setTop(top);
+    } else {
+      Upload bottom = mUploads.get(position);
+      mOutfit.setBottom(bottom);
+    }
+    Toast.makeText(this, "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+
+    if (mOutfit.getTop() != null && mOutfit.getBottom() != null) {
+      saveOutfit();
+    }
+  }
+
 
   @Override
   public void onDeleteClick(int position) {
