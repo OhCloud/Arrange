@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="Choose file" />
+        android:text="Add Something" />
 
     <EditText
         android:id="@+id/edit_text_file_name"
@@ -30,7 +30,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/progress_bar"
         android:layout_below="@id/edit_text_file_name"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/newimage" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -43,21 +44,25 @@
 
     <Button
         android:id="@+id/button_upload"
-        android:layout_width="wrap_content"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="sans-serif-thin"
         android:text="Upload" />
 
     <TextView
         android:id="@+id/text_view_show_uploads"
-        android:layout_width="wrap_content"
+        android:layout_width="214dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/button_upload"
-        android:layout_alignBottom="@+id/button_upload"
-        android:layout_marginStart="25dp"
-        android:layout_toEndOf="@+id/button_upload"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="53dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
         android:text="Go To Closet"
