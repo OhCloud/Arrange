@@ -22,11 +22,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
   private OnItemClickListener mListener; //
   private String mTopOrBottom;
 
+
   public ImageAdapter(Context context, List<Upload> uploads, String topOrBottom) {
     mContext = context;
     mUploads = uploads;
     mTopOrBottom = topOrBottom;
-
   }
 
   @Override

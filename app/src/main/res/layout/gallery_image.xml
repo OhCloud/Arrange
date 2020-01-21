@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view_name"
+            android:id="@+id/gallery_text_view_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -23,10 +23,10 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/image_view_upload"
+            android:id="@+id/gallery_view_upload"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
     </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

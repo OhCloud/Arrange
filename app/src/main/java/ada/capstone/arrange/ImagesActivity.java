@@ -27,7 +27,6 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
   private ImageAdapter mAdapterTop; //
   private ImageAdapter mAdapterBottom; //
 
-
   private ProgressBar mProgressCircle;
 
   private FirebaseStorage mStorage;
@@ -43,6 +42,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_images);
 
+    //scroll for top row and bottom row
     mRecyclerViewTop = findViewById(R.id.recycler_view_top); //
     mRecyclerViewTop.setHasFixedSize(true); //
     mRecyclerViewTop.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -51,11 +51,13 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     mRecyclerViewBottom.setHasFixedSize(true); //
     mRecyclerViewBottom.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-
+    //loading circle
     mProgressCircle = findViewById(R.id.progress_circle);
 
+    //array of pictures
     mUploads = new ArrayList<>();
 
+    //views top and bottom rows
     mAdapterTop = new ImageAdapter(ImagesActivity.this, mUploads, "top"); //
     mAdapterBottom = new ImageAdapter(ImagesActivity.this, mUploads, "bottom"); //
 
@@ -96,7 +98,6 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
         mProgressCircle.setVisibility(View.INVISIBLE);
       }
 
-      //want to show pictures regardless of if new upload happened
       @Override
       public void onCancelled(DatabaseError databaseError) {
         Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
@@ -107,6 +108,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
   }
 
+  //must select one from top row and one from bottom row to make/save outfit
   private void saveOutfit(){
     if (mOutfit.getTop() == null || mOutfit.getBottom() == null) {
       Toast.makeText(this, "No Top or Bottom Selected", Toast.LENGTH_SHORT).show();
@@ -122,12 +124,13 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     });
 
   }
-
+  //will give is the index number on app screen
   @Override
   public void onItemClick(int position) {
     Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
   }
 
+  //will give us the select or delete options
   @Override
   public void onSelectClick(int position, String topOrBottom) {
 //    if (someCondition) {
@@ -152,12 +155,12 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
       saveOutfit();
     }
   }
-
+  //will delete
   @Override
   public void onDeleteClick(int position) {
     Upload selectedItem = mUploads.get(position);
     final String selectedKey = selectedItem.getKey();
-
+//deletes from firebase
     StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getImageUrl());
     imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
       @Override
