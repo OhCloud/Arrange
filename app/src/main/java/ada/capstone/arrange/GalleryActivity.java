@@ -25,7 +25,7 @@ public class GalleryActivity extends AppCompatActivity {
   private RecyclerView mRecyclerViewGallery;
   private GalleryAdapter mGalleryAdapter; //
   private DatabaseReference mDatabaseRef;
-  private List<Upload> mOutfitsList; //combo class?
+  private List<Outfit> mOutfitsList; //combo class?
 
 
   private Outfit mOutfit; //need?
@@ -55,18 +55,14 @@ public class GalleryActivity extends AppCompatActivity {
         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
           Outfit outfit = postSnapshot.getValue(Outfit.class); //Combo combo?
 //          outfit.setKey(postSnapshot.getKey()); //
-          mOutfit.add(outfit);
+          mOutfitsList.add(outfit);
         }
-          //mOutfitsList.clear(); //
-        mGalleryAdapter = new GalleryAdapter(GalleryActivity.this, mOutfitsList, "outfits");
+        mGalleryAdapter = new GalleryAdapter( GalleryActivity.this, mOutfitsList);
 
-
-//        mAdapterGallery.notifyDataSetChanged(); //
-
-        mProgressCircle.setVisibility(View.INVISIBLE); //
+//        mProgressCircle.setVisibility(View.INVISIBLE); //
 
         mRecyclerViewGallery.setAdapter(mGalleryAdapter);
-        mProgressCircle.setVisibility(View.INVISIBLE);
+//        mProgressCircle.setVisibility(View.INVISIBLE);
       }
 
       @Override

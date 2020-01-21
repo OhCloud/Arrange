@@ -58,14 +58,28 @@
         android:layout_alignTop="@+id/button_upload"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="165dp"
         android:layout_marginTop="-1dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="53dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
         android:text="Go To Closet"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/show_gallery"
+        android:layout_width="214dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_upload"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="181dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:text="Gallery"
         android:textSize="16sp" />
 
 </RelativeLayout>

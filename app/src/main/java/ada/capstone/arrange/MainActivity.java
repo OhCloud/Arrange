@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
   private Button mButtonChooseImage;
   private Button mButtonUpload;
-  private TextView mTextViewShowUploads;
+  private TextView mTextViewShowUploads; //gotocloset
   private EditText mEditTextFileName;
   private ImageView mImageView;
   private ProgressBar mProgressBar;
+  private TextView mTextViewShowGallery;
 
   private Uri mImageUri;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     mEditTextFileName = findViewById(R.id.edit_text_file_name);
     mImageView = findViewById(R.id.image_view);
     mProgressBar = findViewById(R.id.progress_bar);
+    mTextViewShowGallery = findViewById(R.id.show_gallery);
 
     //thiiiiis?
     mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
@@ -84,12 +86,20 @@ public class MainActivity extends AppCompatActivity {
     });
 
     mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        openImagesActivity();
-      }
-    });
-  }
+    @Override
+    public void onClick(View v) {
+      openImagesActivity();
+    }
+  });
+
+
+    mTextViewShowGallery.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      openGalleryActivity();
+    }
+  });
+}
 
   private void openFileChooser() {
     Intent intent = new Intent();
@@ -178,4 +188,10 @@ public class MainActivity extends AppCompatActivity {
     Intent intent = new Intent(this, ImagesActivity.class);
     startActivity(intent);
   }
+
+  private void openGalleryActivity() {
+    Intent intent = new Intent(this, GalleryActivity.class);
+    startActivity(intent);
+  }
+
 }
