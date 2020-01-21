@@ -22,7 +22,7 @@
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/button_choose_image"
         android:fontFamily="sans-serif-thin"
-        android:hint="Enter file name" />
+        android:hint="Name Item" />
 
     <ImageView
         android:id="@+id/image_view"
